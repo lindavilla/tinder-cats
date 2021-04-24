@@ -9,7 +9,7 @@ const indexRouter = require('./routes/index');
 const catsRouter = require('./routes/cats');
 
 mongoose
-  .connect('mongodb://localhost:27017/tinder-cats', { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect('mongodb://localhost:27017/tinder-cats', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
   .then(() => {
     console.log('Connected to DB 🚀');
   })

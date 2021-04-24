@@ -22,9 +22,20 @@ router.get('/', (req, res, next) => {
     });
 });
 
+router.get('/:id/update', (req, res) => {
+  const {id} = req.params;
+  Cat.findById(id)
+  .then(cat => {
+    res.render('cats/update', {cat});
+  })
+  
+  
+});
+
 router.get('/create', (req, res) => {
   res.render('cats/create');
 });
+
 
 router.get('/:id', (req, res, next) => {
   const { id } = req.params;
@@ -52,12 +63,27 @@ router.post('/', (req, res, next) => {
     });
 });
 
+
+
 router.post('/:id', (req, res, next) => {
   const { id } = req.params;
   Cat.findByIdAndDelete(id)
     .then(cat => {
       console.log('delete', cat);
       res.status(301);
+      res.redirect('/cats');
+    })
+    .catch(error => {
+      next(error);
+    });
+});
+
+router.post('/:id/update', (req, res, next) => {
+  const { id } = req.params;
+  const { name } = req.body;
+  Cat.findByIdAndUpdate(id, { name }, {new:true})
+    .then(updatedCat => {
+      console.log("Updated cat:", updatedCat)
       res.redirect('/cats');
     })
     .catch(error => {
